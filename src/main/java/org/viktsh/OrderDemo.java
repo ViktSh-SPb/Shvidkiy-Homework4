@@ -6,27 +6,21 @@ import java.util.Random;
 /**
  * @author Viktor Shvidkiy
  */
-public class App {
+public class OrderDemo {
     public static void main(String[] args) throws InterruptedException {
         PrintWord pword = new PrintWord();
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    pword.print(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        Thread thread1 = new Thread(() -> {
+            try {
+                pword.print(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         });
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    pword.print(2);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        Thread thread2 = new Thread(() -> {
+            try {
+                pword.print(2);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         });
 
@@ -39,7 +33,7 @@ public class App {
 
 class PrintWord {
     private static volatile int threadNumber = 1;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     public void print(int id) throws InterruptedException {
         while (true) {
